@@ -1,15 +1,202 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="text-center">
-    <h1 class="display-4">
-        Find Your Dream JOb with AI
-    </h1>
-    <p class="lead mt-3">
-        Welcome to the AI-Powered Job Portal.
-        Search jobs, apply online, and get AI-powered recommendations.
-    </p>
-    <a href="#" class="btn btn-primary btn-lg mt-3">
-        Browse Jobs
-    </a>
+
+<div class="container-fluid">
+
+    <!-- Hero Section -->
+    <div class="bg-primary text-white text-center rounded p-5 mb-5">
+
+        <h1 class="display-3 fw-bold">
+            🤖 AI Job Portal
+        </h1>
+
+        <p class="lead mt-3">
+            Find Your Dream Job with AI-Powered Resume Analysis and Smart Job Matching.
+        </p>
+
+        <div class="mt-4">
+
+            <a href="{% url 'job_list' %}" class="btn btn-light btn-lg me-3">
+                💼 Browse Jobs
+            </a>
+
+            <a href="{% url 'resume_analyzer' %}" class="btn btn-warning btn-lg">
+                🤖 AI Resume Analyzer
+            </a>
+
+        </div>
+
     </div>
+
+    <!-- Statistics -->
+
+    <div class="row text-center mb-5">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h1 class="text-primary">
+                        {{ total_jobs }}
+                    </h1>
+
+                    <h5>Total Jobs</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h1 class="text-success">
+                        {{ total_recruiters }}
+                    </h1>
+
+                    <h5>Recruiters</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h1 class="text-danger">
+                        {{ total_job_seekers }}
+                    </h1>
+
+                    <h5>Job Seekers</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Features -->
+
+    <h2 class="text-center mb-4">
+        Why Choose AI Job Portal?
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>💼</h1>
+
+                    <h4>Thousands of Jobs</h4>
+
+                    <p>
+                        Browse jobs from top companies across multiple domains.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>🤖</h1>
+
+                    <h4>AI Resume Analyzer</h4>
+
+                    <p>
+                        Upload your resume and receive AI-powered feedback.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>🎯</h1>
+
+                    <h4>Job Match</h4>
+
+                    <p>
+                        Compare your resume with job requirements instantly.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>🚀</h1>
+
+                    <h4>Career Growth</h4>
+
+                    <p>
+                        Apply for jobs and track your applications with ease.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Call to Action -->
+
+    <div class="bg-dark text-white text-center rounded p-5 mt-5">
+
+        <h2>
+            Ready to Build Your Career?
+        </h2>
+
+        <p class="lead">
+            Join our AI-powered platform and find the perfect job today.
+        </p>
+
+        <a href="{% url 'register' %}" class="btn btn-success btn-lg">
+            Get Started
+        </a>
+
+    </div>
+
+</div>
+
 {% endblock %}

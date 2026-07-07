@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Left Section -->
+                <div class="col-md-8">
+
+                    <h1 class="text-primary fw-bold">
+                        {{ job.title }}
+                    </h1>
+
+                    <h4 class="text-secondary">
+                        🏢 {{ job.company }}
+                    </h4>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <p>
+                                <strong>📍 Location</strong><br>
+                                {{ job.location }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p>
+                                <strong>💰 Salary</strong><br>
+                                ₹{{ job.salary }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p>
+                                <strong>👨‍💻 Experience</strong><br>
+                                {{ job.experience }} Years
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p>
+                                <strong>💼 Job Type</strong><br>
+
+                                <span class="badge bg-success fs-6">
+                                    {{ job.get_job_type_display }}
+                                </span>
+
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <h4>📄 Job Description</h4>
+
+                    <p class="text-muted">
+                        {{ job.description }}
+                    </p>
+
+                    <hr>
+
+                    <h4>🛠 Required Skills</h4>
+
+                    {% for skill in job.skills.split %}
+
+                        <span class="badge bg-primary m-1 p-2">
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% empty %}
+
+                        <p class="text-muted">{{ job.skills }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+                <!-- Right Section -->
+
+                <div class="col-md-4">
+
+                    <div class="card bg-light shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <h3 class="mb-3">
+                                Quick Actions
+                            </h3>
+
+                            {% if request.user.is_authenticated and request.user.role == "job_seeker" %}
+
+                                <a href="{% url 'apply_job' job.id %}"
+                                   class="btn btn-success w-100 mb-3">
+
+                                    🚀 Apply Now
+
+                                </a>
+
+                                <a href="{% url 'resume_analyzer' %}"
+                                   class="btn btn-warning w-100">
+
+                                    🤖 AI Resume Analyzer
+
+                                </a>
+
+                            {% endif %}
+
+                            {% if request.user.is_authenticated and request.user.role == "recruiter" %}
+
+                                <a href="{% url 'edit_job' job.id %}"
+                                   class="btn btn-warning w-100 mb-2">
+
+                                    ✏ Edit Job
+
+                                </a>
+
+                                <a href="{% url 'delete_job' job.id %}"
+                                   class="btn btn-danger w-100 mb-2">
+
+                                    🗑 Delete Job
+
+                                </a>
+
+                                <a href="{% url 'view_applications' job.id %}"
+                                   class="btn btn-info w-100">
+
+                                    👥 View Applications
+
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a href="{% url 'job_list' %}"
+                   class="btn btn-secondary">
+
+                    ← Back to Jobs
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

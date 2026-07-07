@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="contanier mt-5" style="max-width:600px;">
+
+<div class="container mt-5" style="max-width:600px;">
+
     <h2 class="text-center mb-4">Create an Account</h2>
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <div class="mb-3">
+            <label>Username</label>
+            {{ form.username }}
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="mb-3">
+            <label>Role</label>
+            {{ form.role }}
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            {{ form.password1 }}
+        </div>
+
+        <div class="mb-3">
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
         <button type="submit" class="btn btn-primary w-100">
             Register
         </button>
+
     </form>
+
 </div>
+
 {% endblock %}

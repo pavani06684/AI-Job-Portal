@@ -1,7 +1,10 @@
 venv/
-.git/
 __pycache__/
 *.pyc
 db.sqlite3
+media/
+temp_resume.pdf
 .env
 .vscode/
+.idea/
+*.log

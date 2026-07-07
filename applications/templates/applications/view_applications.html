@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Applications for {{ job.title }}
+    </h2>
+
+    <hr>
+
+    {% for application in applications %}
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h4>{{ application.applicant.username }}</h4>
+
+            <p>
+                <strong>Email:</strong>
+                {{ application.applicant.email }}
+            </p>
+
+            <p>
+                <strong>Cover Letter:</strong><br>
+                {{ application.cover_letter }}
+            </p>
+
+            <p>
+                <strong>Resume:</strong>
+                <a href="{{ application.resume.url }}" target="_blank">
+                    View Resume
+                </a>
+            </p>
+
+            <p>
+                <strong>Applied On:</strong>
+                {{ application.applied_at }}
+            </p>
+
+            <p>
+                <strong>Current Status:</strong>
+
+                {% if application.status == "Pending" %}
+                    <span class="badge bg-warning text-dark">
+                        {{ application.status }}
+                    </span>
+
+                {% elif application.status == "Shortlisted" %}
+                    <span class="badge bg-primary">
+                        {{ application.status }}
+                    </span>
+
+                {% elif application.status == "Rejected" %}
+                    <span class="badge bg-danger">
+                        {{ application.status }}
+                    </span>
+
+                {% elif application.status == "Hired" %}
+                    <span class="badge bg-success">
+                        {{ application.status }}
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+            <hr>
+
+            <form method="POST"
+                  action="{% url 'update_status' application.id %}">
+
+                {% csrf_token %}
+
+                <label class="form-label">
+                    Update Status
+                </label>
+
+                <select name="status" class="form-select mb-3">
+
+                    <option value="Pending"
+                        {% if application.status == "Pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="Shortlisted"
+                        {% if application.status == "Shortlisted" %}selected{% endif %}>
+                        Shortlisted
+                    </option>
+
+                    <option value="Rejected"
+                        {% if application.status == "Rejected" %}selected{% endif %}>
+                        Rejected
+                    </option>
+
+                    <option value="Hired"
+                        {% if application.status == "Hired" %}selected{% endif %}>
+                        Hired
+                    </option>
+
+                </select>
+
+                <button type="submit" class="btn btn-success">
+                    Update Status
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-info">
+        No applications received yet.
+    </div>
+
+    {% endfor %}
+
+    <a href="{% url 'recruiter_dashboard' %}" class="btn btn-secondary">
+        Back to Recruiter Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

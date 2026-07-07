@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">🤖 AI Resume Analyzer</h2>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <!-- Select Job -->
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Select Job
+                    </label>
+
+                    <select name="job" class="form-select" required>
+
+                        <option value="">
+                            -- Select Job --
+                        </option>
+
+                        {% for job in jobs %}
+
+                        <option value="{{ job.id }}">
+                            {{ job.title }} - {{ job.company }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Upload Resume -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Upload Resume (PDF)
+                    </label>
+
+                    <input
+                        type="file"
+                        name="resume"
+                        class="form-control"
+                        accept=".pdf"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    Analyze Resume
+
+                </button>
+
+            </form>
+
+            {% if result %}
+
+            <hr>
+
+            <!-- Skills -->
+
+            <h3 class="text-primary">
+                📌 Extracted Skills
+            </h3>
+
+            {% if result.skills %}
+
+            <div class="mb-4">
+
+                {% for skill in result.skills %}
+
+                <span class="badge bg-success me-2 mb-2 p-2">
+
+                    {{ skill }}
+
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+
+                No skills found in the resume.
+
+            </div>
+
+            {% endif %}
+
+            <hr>
+
+            <!-- Resume Score -->
+
+            <h3 class="text-primary">
+
+                ⭐ Resume Score
+
+            </h3>
+
+            <div class="progress mb-3" style="height:30px;">
+
+                <div
+                    class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                    role="progressbar"
+                    style="width: {{ result.score }}%;">
+
+                    {{ result.score }}%
+
+                </div>
+
+            </div>
+
+            <h4>
+
+                Resume Score:
+                <span class="text-success">
+
+                    {{ result.score }}/100
+
+                </span>
+
+            </h4>
+
+            <hr>
+
+            <!-- Job Match -->
+
+            <h3 class="text-primary">
+
+                🎯 Job Match Analysis
+
+            </h3>
+
+            <h4>
+
+                Match Percentage:
+
+                <span class="text-info">
+
+                    {{ result.match_percentage }}%
+
+                </span>
+
+            </h4>
+
+            <div class="progress mb-3" style="height:30px;">
+
+                <div
+                    class="progress-bar bg-info"
+                    role="progressbar"
+                    style="width: {{ result.match_percentage }}%;">
+
+                    {{ result.match_percentage }}%
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Matching Skills -->
+
+                <div class="col-md-6">
+
+                    <div class="card border-success mb-3">
+
+                        <div class="card-header bg-success text-white">
+
+                            ✅ Matching Skills
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <ul>
+
+                                {% for skill in result.matched_skills %}
+
+                                <li>{{ skill }}</li>
+
+                                {% empty %}
+
+                                <li>No matching skills.</li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Missing Skills -->
+
+                <div class="col-md-6">
+
+                    <div class="card border-danger mb-3">
+
+                        <div class="card-header bg-danger text-white">
+
+                            ❌ Missing Skills
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <ul>
+
+                                {% for skill in result.missing_skills %}
+
+                                <li>{{ skill }}</li>
+
+                                {% empty %}
+
+                                <li>No missing skills.</li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Suggestions -->
+
+            <div class="alert alert-info">
+
+                <h5>💡 Suggestions</h5>
+
+                {% if result.match_percentage >= 80 %}
+
+                Excellent! Your resume matches this job very well.
+
+                {% elif result.match_percentage >= 60 %}
+
+                Good match. Consider learning the missing skills to improve your chances.
+
+                {% else %}
+
+                Your resume needs improvement for this job. Focus on the missing skills listed above.
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

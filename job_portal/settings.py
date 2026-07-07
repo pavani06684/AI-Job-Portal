@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'jobs',
+    'applications',
+    'ai',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +125,11 @@ AUTH_USER_MODEL='accounts.User'
 LOGIN_URL="login"
 LOGIN_REDIRECT_URL="dashboard"
 LOGOUT_REDIRECT_URL="home"
+
+MEDIA_URL="/media/"
+MEDIA_ROOT=BASE_DIR/"media"
+
+STATIC_URL="static/"
+STATICFILES_DIR=[
+    BASE_DIR/"static",
+]
